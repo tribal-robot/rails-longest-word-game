@@ -1,0 +1,15 @@
+<h1 class="mb-2">New game</h1>
+<p class="mb-4">Create the longest word possible from the letters shown</p>
+<div class="letter-container">
+  <% @letters.each do |letter| %>
+    <div class="letter-card"><%= letter %></div>
+  <% end %>
+</div>
+  <form class="mt-4" action="score" method="post" data-turbo="false">
+    <div class="inline-form">
+      <input name="word" type="text" class="form-control" id="word">
+      <input type="submit" class="btn btn-success">
+    </div>
+    <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
+    <%= hidden_field_tag 'letters', @letters %>
+  </form>

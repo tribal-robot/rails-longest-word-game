@@ -1,0 +1,20 @@
+<h1>Result</h1>
+
+<% letters = params[:letters].split.join.downcase %>
+<% word = params[:word].split.join.downcase %>
+
+<% parsed_result = JSON.parse(URI.open("https://wagon-dictionary.herokuapp.com/#{word}").read) %>
+
+<% word_check = params[:word].chars %>
+
+<% letters.split('').each { |letter| word_check.delete_at(word_check.index(letter)) if word_check.include?(letter) } %>
+
+<% if !parsed_result["found"] %>
+  <p>Sorry but <strong><%= word.upcase %></strong> does not seem to be a valid English word.</p>
+<% elsif !word_check.empty? %>
+  <p>Sorry but <strong><%= word.upcase %></strong> can't be built out of <%= letters.split('').join(', ').upcase %></p>
+<% else %>
+  <p><strong>Congratulations! </strong><%= word.upcase %> is a valid English word!</p>
+<% end %>
+
+<%= link_to 'Play again', '/games/new' %>
